@@ -1,30 +1,59 @@
-import { Component, Injectable } from '@angular/core';
-import { Client } from '../../interfaces/Client';
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { Client } from 'src/interfaces/Client';
+import { ClientService } from '../services/client.service';
 
 @Component({
   selector: 'app-clients',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './clients.component.html',
-  styleUrl: './clients.component.scss'
+  styleUrls: ['./clients.component.scss']
 })
-
-@Injectable({providedIn: 'root'})
 export class ClientsComponent {
-  
-  constructor(private http: HttpClient) {
+
+  clients : Client[] = [];
+  clientsFiltered : Client[] = [];
+  private _searchFilter: string = '';
+
+  public get searchFilter ()
+  {
+    return this._searchFilter;
+  }
+
+  public set searchFilter(value: string)
+  {
+    this._searchFilter = value;
+    this.clientsFiltered = this.searchFilter ? this.searchClients(this.searchFilter) : this.clients;
+  }
+
+  constructor(private clientService: ClientService) { }
+
+  ngOnInit(): void
+  {
     this.getClients();
   }
 
-  clients : Client[] = []
+  searchClients(searchFilter: string): Client[] 
+  {
+    searchFilter = searchFilter.toLocaleLowerCase();
+    return this.clients.filter(
+      client => client.name.toLocaleLowerCase().indexOf(searchFilter) !== -1
+    )
+  }
+
+  public hasClients() : boolean
+  {
+    return this.clients && this.clients.length > 0;
+  }
 
   public getClients(): void
   {
-    this.http.get(`https://localhost:7233/api/Client`).subscribe(
-      response => this.clients = response as Client[],
-      error => console.log(error)
-    )
+    const observer = {
+      next: (_clients: Client[]) => {
+        this.clients = _clients;
+        this.clientsFiltered = this.clients;
+      },
+      error: (error: any) => console.log(error),
+    };
+
+    this.clientService.getClients().subscribe(observer);
   }
 }

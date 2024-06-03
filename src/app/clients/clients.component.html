@@ -1,8 +1,47 @@
-<h1>Clients</h1>
+<h2>Clients</h2>
 
-<div *ngFor="let client of clients;">
-    <p><b>Name: </b>{{ client.name }}</p>
-    <p><b>Age: </b>{{ client.age }}</p>
+<div class="d-flex">
+    <label class="mr-2 text-center">Filter: </label>
+    <input
+        class="form-control me-2" 
+        type="search" 
+        placeholder="Search" 
+        aria-label="Search"
+        [(ngModel)]="searchFilter"
+    >
+    <button class="btn btn-outline-success" type="submit">Search</button>
 </div>
-  
-   
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>CPF</th>
+            <th>RG</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="hasClients()">
+        <tr *ngFor="let client of clientsFiltered;">
+            <td>{{ client.name }}</td>
+            <td>{{ client.age }}</td>
+            <td>{{ client.cpf }}</td>
+            <td>{{ client.rg }}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm me-2">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot *ngIf="!hasClients()">
+        <tr>
+            <td colspan="8" class="text-center">
+                <h4>No clients found.</h4>
+            </td>
+        </tr>
+    </tfoot>
+</table>
