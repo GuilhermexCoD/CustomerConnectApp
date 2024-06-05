@@ -1,0 +1,70 @@
+<div class="card rounded shadow-sm p-3">
+    <div class="d-flex">
+        <div class="flex-fill pe-3">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Filter: </div>
+                </div>
+                <input
+                class="form-control" 
+                type="search" 
+                placeholder="Search" 
+                aria-label="Search"
+                [(ngModel)]="searchFilter"
+                >
+            </div>
+        </div>
+        <div>
+            <a class="d-flex btn btn-outline-primary" routerLink="/clients/detail">
+                <i class="fa fa-plus-circle my-1"></i>
+                <b class="ms-1 d-none d-sm-block">New</b>
+            </a>
+        </div>
+    </div>
+    
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>CPF</th>
+                <th>RG</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="hasClients()">
+            <tr *ngFor="let client of clientsFiltered;" (click)="detail(client.id)" style="cursor: pointer;">
+                <td>{{ client.name }}</td>
+                <td>{{ client.age }}</td>
+                <td>{{ client.cpf }}</td>
+                <td>{{ client.rg }}</td>
+                <td>
+                    
+                <button 
+                    type="button" 
+                    class="btn btn-danger btn-lg"
+                    tooltip="Delete" [delay]="500"
+                    (click)="openModal($event, deleteModal, client)"
+                >
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+    </tr>
+        </tbody>
+    <tfoot *ngIf="!hasClients()">
+        <tr>
+            <td colspan="8" class="text-center">
+                <h4>No clients found.</h4>
+            </td>
+        </tr>
+    </tfoot>
+    </table>
+</div>
+
+
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Do you want to delete this client {{deleteClient.name}} ?</p>
+        <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+    </div>
+</ng-template>

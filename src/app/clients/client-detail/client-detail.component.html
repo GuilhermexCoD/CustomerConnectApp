@@ -1,0 +1,186 @@
+<div class="card rounded shadow-sm">
+    <form [formGroup]="form">
+        <div class="p-3">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Name</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.name)"
+                        formControlName="name" 
+                        placeholder="">
+                    <div *ngIf="f.name?.errors?.required" class="invalid-feedback">
+                        Name is required!
+                    </div>
+                    <div *ngIf="f.name?.errors?.minlength" class="invalid-feedback">
+                        Name minimum is 3.
+                    </div>
+                    <div *ngIf="f.name?.errors?.maxlength" class="invalid-feedback">
+                        Name maximum is 100.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Age</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.age)"
+                        formControlName="age" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.age?.errors?.required" class="invalid-feedback">
+                        Age is required!
+                    </div>
+                    <div *ngIf="f.age?.errors?.min" class="invalid-feedback">
+                        Age minimum is 18.
+                    </div>
+                    <div *ngIf="f.age?.errors?.max" class="invalid-feedback">
+                        Age maximum is 150.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>CPF</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.cpf)"
+                        formControlName="cpf" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.cpf?.errors?.required" class="invalid-feedback">
+                        CPF is required!
+                    </div>
+                    <div *ngIf="f.cpf?.errors?.maxlength" class="invalid-feedback">
+                        CPF maximum is 11.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>RG</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.rg)"
+                        formControlName="rg" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.rg?.errors?.required" class="invalid-feedback">
+                        RG is required!
+                    </div>
+                    <div *ngIf="f.rg?.errors?.maxlength" class="invalid-feedback">
+                        RG maximum is 9.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Street</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.street)"
+                        formControlName="street" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.street?.errors?.required" class="invalid-feedback">
+                        Street is required!
+                    </div>
+                    <div *ngIf="f.street?.errors?.maxlength" class="invalid-feedback">
+                        Street maximum is 150.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>City</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.city)"
+                        formControlName="city" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.city?.errors?.required" class="invalid-feedback">
+                        City is required!
+                    </div>
+                    <div *ngIf="f.city?.errors?.maxlength" class="invalid-feedback">
+                        City maximum is 60.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>State</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.state)"
+                        formControlName="state" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.state?.errors?.required" class="invalid-feedback">
+                        State is required!
+                    </div>
+                    <div *ngIf="f.state?.errors?.maxlength" class="invalid-feedback">
+                        State maximum is 60.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Country</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.country)"
+                        formControlName="country" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.country?.errors?.required" class="invalid-feedback">
+                        Country is required!
+                    </div>
+                    <div *ngIf="f.country?.errors?.maxlength" class="invalid-feedback">
+                        Country maximum is 60.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Postal Code</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.postalCode)"
+                        formControlName="postalCode" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.postalCode?.errors?.required" class="invalid-feedback">
+                        Postal Code is required!
+                    </div>
+                    <div *ngIf="f.postalCode?.errors?.maxlength" class="invalid-feedback">
+                        Postal Code maximum is 60.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                <button class="btn btn-outline-secondary me-auto border" (click)="resetForm()">
+                    Cancel changes
+                </button>
+                <button class="btn btn-success" [disabled]="!form.valid" (click)="saveChange()">
+                    <!-- <span class="spinner-border spinner-border-sm me-1"></span> -->
+                    <p *ngIf="hasClientId()">Update Client</p> 
+                    <p *ngIf="!hasClientId()">Create Client</p> 
+                </button>
+            </div>
+        </div>
+    </form>
+    
+</div>
