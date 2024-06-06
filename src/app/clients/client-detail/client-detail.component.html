@@ -80,6 +80,25 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
+                    <label>Postal Code</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        [ngClass]="cssValidation(f.postalCode)"
+                        (blur)="searchPostalCode($event);"
+                        formControlName="postalCode" 
+                        placeholder=""
+                    >
+                    <div *ngIf="f.postalCode?.errors?.required" class="invalid-feedback">
+                        Postal Code is required!
+                    </div>
+                    <div *ngIf="f.postalCode?.errors?.maxlength" class="invalid-feedback">
+                        Postal Code maximum is 60.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
                     <label>Street</label>
                     <input 
                         type="text" 
@@ -150,31 +169,13 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label>Postal Code</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        [ngClass]="cssValidation(f.postalCode)"
-                        formControlName="postalCode" 
-                        placeholder=""
-                    >
-                    <div *ngIf="f.postalCode?.errors?.required" class="invalid-feedback">
-                        Postal Code is required!
-                    </div>
-                    <div *ngIf="f.postalCode?.errors?.maxlength" class="invalid-feedback">
-                        Postal Code maximum is 60.
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="card-footer">
             <div class="d-flex">
                 <button class="btn btn-outline-secondary me-auto border" (click)="resetForm()">
                     Cancel changes
                 </button>
-                <button class="btn btn-success" [disabled]="!form.valid" (click)="saveChange()">
+                <button class="btn btn-success" [disabled]="!form.valid" (click)="saveClient()">
                     <!-- <span class="spinner-border spinner-border-sm me-1"></span> -->
                     <p *ngIf="hasClientId()">Update Client</p> 
                     <p *ngIf="!hasClientId()">Create Client</p> 
@@ -182,5 +183,80 @@
             </div>
         </div>
     </form>
-    
 </div>
+<div class="card rounded shadow-sm mt-4" *ngIf="hasClientId()">
+    <!-- <p>Form Value: {{form.controls['phones'].value | json}}</p>
+    <p>Form Valid: {{form.controls['phones'].status | json}}</p> -->
+    <div class="p-3">
+      <div class="d-flex border-bottom">
+        <h2 class="me-auto">
+          Phones
+        </h2>
+        <h2>
+          <i class="fas fa-phone"></i>
+        </h2>
+      </div>
+      <p>Click on the plus icon to add new phones</p>
+      <div class="form-row p-1">
+        <div [formGroup]="form" class="col">
+          <div formArrayName="phones" *ngFor="let phone of phones.controls; let i=index">
+            <fieldset [formGroupName]="i" class="form-group">
+              <legend class="d-flex justify-content-between capitalize">
+                <button (click)="removePhone(deleteModal, i)" class="p-2 btn btn-sm btn-outline-danger mb-1 d-flex"
+                  tooltip="Delete Phone"
+                  [adaptivePosition]="false"
+                  [delay]="500"
+                  placement="left">
+                <i class="fa fa-window-close my-1"></i>
+                <b class="ms-1 d-none d-sm-block">Delete</b>
+              </button>
+            </legend>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label>Type</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="cssValidation(phones.get(i+'.type')!)"
+                    formControlName="type" 
+                    placeholder="Cellphone">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Phone number</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    [ngClass]="cssValidation(phones.get(i+'.phoneNumber')!)"
+                    formControlName="phoneNumber" 
+                    placeholder="00000000">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <button (click)="addPhone()" class="d-flex btn btn-outline-primary">
+      <i class="fa fa-plus-circle my-1"></i>
+      <b class="ms-1">Phone</b>
+    </button>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex">
+      <!-- <button class="btn btn-outline-secondary me-auto border">
+        Cancel changes
+      </button> -->
+      <button (click)="savePhones()" class="btn btn-success">
+        Save Phones
+      </button>
+    </div>
+  </div>
+</div>
+<br>
+
+<ng-template #deleteModal>
+    <div class="modal-body text-center">
+        <p>Do you want to delete this phone {{deletePhone.phoneNumber}} ?</p>
+        <button type="button" class="btn btn-default" (click)="confirmDeletePhone()" >Yes</button>
+        <button type="button" class="btn btn-primary" (click)="declineDeletePhone()" >No</button>
+    </div>
+</ng-template>

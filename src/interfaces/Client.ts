@@ -1,4 +1,4 @@
-import { Phone } from "./phone";
+import { Phone } from "./Phone";
 
 export interface Client {
     id: string;

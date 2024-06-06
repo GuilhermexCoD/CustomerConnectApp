@@ -109,7 +109,6 @@ export class ClientListComponent {
   }
 
   detail(id: string): void {
-    console.log([`clients/detail/${id}`]);
     this.router.navigate([`clients/detail/${id}`]);
   }
 }
